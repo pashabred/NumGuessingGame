@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             if (Integer.parseInt(textFromET) < randNum) {
                 numTries -= 1;
-                Toast.makeText(MainActivity.this, textFromET + " is less than a maiden number. Try again" + "\nYou have " + (numTries) + "tries left", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, textFromET + " is less than a maiden number. Try again" + "\nYou have " + (numTries) + " tries left", Toast.LENGTH_LONG).show();
                 txtGuess.setText("");
 
             } else if (Integer.parseInt(textFromET) > randNum) {
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, textFromET + " is over than a maiden number. Try again" + "\nYou have " + (numTries) + " tries left", Toast.LENGTH_LONG).show();
                 txtGuess.setText("");
             } else {
-                Toast.makeText(MainActivity.this, "Congratulations! You got that right. Let's play again", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "C        ongratulations! You got that right. Let's play again", Toast.LENGTH_LONG).show();
                 storeWinStat();
             }
         } catch (Exception e) {
