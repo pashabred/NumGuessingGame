@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
     private int rangeMax = 100;
 
+    private int numTries;
+    private int maxTries;
+
     public int generateRandNum(int min, int max) {
         return (int) (Math.random() * (max + 1 - min) + min) ;
     }
@@ -46,10 +49,13 @@ public class MainActivity extends AppCompatActivity {
         String textFromET = txtGuess.getText().toString();
         try {
             if (Integer.parseInt(textFromET) < randNum) {
-                Toast.makeText(MainActivity.this, textFromET + " is less than a maiden number. Try again", Toast.LENGTH_LONG).show();
+                numTries -= 1;
+                Toast.makeText(MainActivity.this, textFromET + " is less than a maiden number. Try again" + "\nYou have " + (numTries) + "tries left", Toast.LENGTH_LONG).show();
                 txtGuess.setText("");
+
             } else if (Integer.parseInt(textFromET) > randNum) {
-                Toast.makeText(MainActivity.this, textFromET + " is over than a maiden number. Try again", Toast.LENGTH_LONG).show();
+                numTries -= 1;
+                Toast.makeText(MainActivity.this, textFromET + " is over than a maiden number. Try again" + "\nYou have " + (numTries) + " tries left", Toast.LENGTH_LONG).show();
                 txtGuess.setText("");
             } else {
                 Toast.makeText(MainActivity.this, "Congratulations! You got that right. Let's play again", Toast.LENGTH_LONG).show();
@@ -58,14 +64,23 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(MainActivity.this, "Enter the number between " + rangeMin + " and "+ rangeMax, Toast.LENGTH_LONG).show();
         }
+        finally {
+            if (numTries == 0) {
+                Toast.makeText(MainActivity.this, "So sorry. You lose. " + randNum + " was the number", Toast.LENGTH_LONG).show();
+                newGame(rangeMin,rangeMax);
+            }
+        }
 
     }
 
     @SuppressLint("SetTextI18n")
     private void newGame(int min, int max) {
+
         randNum = generateRandNum(min, max);
+        maxTries = (int) (Math.log(rangeMax) / Math.log(2) + 1);
+        numTries = maxTries;
         txtRange.setText("Enter the number between " + min + " and " + max);
-        txtGuess.setText(" ");
+        txtGuess.setText("");
     }
 
 
@@ -76,16 +91,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
         txtGuess = findViewById(R.id.editText);
         Button btnGuess = findViewById(R.id.button);
         txtRange = findViewById(R.id.textView2);
 
-        rangeMax = getRangeMax();
-
-        txtRange.setText("Enter the number between " + rangeMin + " and "+ rangeMax);
-
-        randNum = generateRandNum(rangeMin, rangeMax);
-
+        newGame(rangeMin,rangeMax);
         btnGuess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
